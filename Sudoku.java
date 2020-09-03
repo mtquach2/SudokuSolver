@@ -4,24 +4,33 @@ public class Sudoku
 {
 	private int [][] board;
 	public static final int SIZE = 9;
-	
+	public boolean valid = true;
 	public Sudoku(){}
 
 	public void enterBoard()
 	{
-		int [][] tempArr = new int [9][9];
+		board = new int[9][9];
 		Scanner scan = new Scanner(System.in);
-
+		int temp = 0;
 		for (int row = 0; row < SIZE; row++)
 		{
-			System.out.print("Please enter row " + (row + 1) + " with a space between each integer: ");
+			System.out.print("Please enter 9 integers for row " + (row + 1) + " with a space between each integer: ");
 			for (int col = 0; col < SIZE; col++)
 			{
-				tempArr[row][col] = scan.nextInt();
+				temp = scan.nextInt();
+
+				if (safe(board, row, col, temp))
+				{
+					valid = true;
+					board[row][col] = temp;
+				}
+				else
+				{
+					valid = false;
+				}
 			}
 		}
 		System.out.println();
-		board = tempArr;
 
 	}
 
@@ -142,12 +151,17 @@ public class Sudoku
 		
 		sudoku.enterBoard();
 		
-		sudoku.solve(sudoku.board);
-		
-		sudoku.printBoard(sudoku.board);
+		if(sudoku.solve(sudoku.board) && sudoku.valid)
+		{
+			sudoku.printBoard(sudoku.board);
+		}
+		else
+		{
+			System.out.println("Unsolvable board");
+		}
 		
 		
 		
 		
 	}
-}	
+}
