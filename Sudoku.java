@@ -3,19 +3,20 @@ import java.util.*;
 public class Sudoku 
 {
 	private int [][] board;
-	public static final int SIZE = 9;
+	public static final int SIZE = 9;	//O(1)
 	public boolean valid = true;
+	
 	public Sudoku(){}
 
-	public void enterBoard()
+	public void enterBoard()	//O(n)
 	{
-		board = new int[9][9];
+		board = new int[9][9]; //O(1)
 		Scanner scan = new Scanner(System.in);
-		int temp = 0;
-		for (int row = 0; row < SIZE; row++)
+		int temp = 0;	//O(1)
+		for (int row = 0; row < SIZE; row++)	
 		{
 			System.out.print("Please enter 9 integers for row " + (row + 1) + " with a space between each integer: ");
-			for (int col = 0; col < SIZE; col++)
+			for (int col = 0; col < SIZE; col++)	
 			{
 				temp = scan.nextInt();
 
@@ -34,23 +35,23 @@ public class Sudoku
 
 	}
 
-	public boolean safeRow(int [][] board, int row, int x)
+	public boolean safeRow(int [][] board, int row, int x)	//O(n)
 	{
 		boolean flag = true;
 
-		for (int i = 0; i < SIZE; i++){
+		for (int i = 0; i < SIZE; i++){ 
 			if (board[row][i] == x){
 				flag = false;	//if the number x is already in the row return false
 			}
 		}
 		return flag;
 	}
-
-	public boolean safeCol(int [][] board, int col, int x)
+	
+	public boolean safeCol(int [][] board, int col, int x)	// O(n)
 	{	
 		boolean flag = true;
 
-		for (int i = 0; i < SIZE; i++)
+		for (int i = 0; i < SIZE; i++)	
 		{
 			if (board[i][col] == x)
 			{
@@ -62,14 +63,15 @@ public class Sudoku
 
 	}
 
-	public boolean safe3x3(int [][] board, int row, int col, int x)
+	public boolean safe3x3(int [][] board, int row, int col, int x)	// O(n^2)
 	{
 		int boxRow = row - row % 3;	// finds beginning of box row
 		int boxCol = col - col % 3; //finds beginning of box col 
 		boolean flag = true;
-
+		// O(n)
 		for (int i = boxRow; i < boxRow + 3; i++)	//for every row in the 3x3
 		{
+			// O(n)
 			for (int j = boxCol; j < boxCol + 3; j++)	//for every col in the 3x3
 			{
 				if (board[i][j] == x)
@@ -82,24 +84,24 @@ public class Sudoku
 		return flag;
 	}
 
-	public boolean safe(int[][] board, int row, int col, int x)
+	public boolean safe(int[][] board, int row, int col, int x) //O(n^2)
 	{
 		return safeRow(board, row, x) && safeCol(board, col, x) && safe3x3(board, row, col, x);
 	}
 
-	public boolean solve(int[][] board)
+	public boolean solve(int[][] board)	//Time: O(n!) Space: O(1)
 	{
-		for (int row = 0; row < SIZE; row++){
-			for (int col = 0; col < SIZE; col++){
+		for (int row = 0; row < SIZE; row++){	
+			for (int col = 0; col < SIZE; col++){	
 				if (board[row][col] == 0){	//if the space is empty try numbers
-				
+					
 					for (int x = 1; x <= 9; x++){	//try numbers 1-9 until one works
 						
 						if (safe(board, row, col, x) == true){	//if the number is safe
 							
 							board[row][col] = x;	//place that number 
 							
-							if (solve(board)){
+							if (solve(board)){	
 								return true;
 							}
 							else{
@@ -114,16 +116,16 @@ public class Sudoku
 		return true;	//if code gets here sudoku is solved 
 	}
 
-	public void printBoard(int[][] board)
+	public void printBoard(int[][] board)	//O(n^2)
 	{
-		for (int row = 0; row < SIZE; row++)
+		for (int row = 0; row < SIZE; row++)	
 		{
 			if (row % 3 == 0)
 			{
 				System.out.println("   ---------------------");	//after every 3 rows print - to separate box
 			}
 
-			for (int col = 0; col < SIZE; col++)
+			for (int col = 0; col < SIZE; col++)	
 			{
 				if (col == 0)
 				{
@@ -144,7 +146,7 @@ public class Sudoku
 
 	}
 
-	public static void main(String[] args)
+	public static void main(String[] args) //O(n!)
 	{
 
 		Sudoku sudoku = new Sudoku();
