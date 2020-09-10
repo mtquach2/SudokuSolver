@@ -8,7 +8,7 @@ public class Sudoku
 	
 	public Sudoku(){}
 
-	public void enterBoard()	//O(n)
+	public void enterBoard()	//O(n^2)
 	{
 		board = new int[9][9]; //O(1)
 		Scanner scan = new Scanner(System.in);
@@ -40,7 +40,8 @@ public class Sudoku
 		boolean flag = true;
 
 		for (int i = 0; i < SIZE; i++){ 
-			if (board[row][i] == x){
+			if (board[row][i] == x && board[row][i] != 0){
+				
 				flag = false;	//if the number x is already in the row return false
 			}
 		}
@@ -53,7 +54,7 @@ public class Sudoku
 
 		for (int i = 0; i < SIZE; i++)	
 		{
-			if (board[i][col] == x)
+			if (board[i][col] == x && board[i][col] != 0)
 			{
 				flag = false;	//if the number x is already in the col return false
 			}
@@ -74,8 +75,9 @@ public class Sudoku
 			// O(n)
 			for (int j = boxCol; j < boxCol + 3; j++)	//for every col in the 3x3
 			{
-				if (board[i][j] == x)
+				if (board[i][j] == x && board[i][j] != 0)
 				{
+		
 					flag =  false;
 				}
 				
